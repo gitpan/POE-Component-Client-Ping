@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.8 2002/10/10 15:58:22 rcaputo Exp $
+# $Id: Ping.pm,v 1.11 2003/09/04 05:57:33 rcaputo Exp $
 # License and documentation are after __END__.
 
 package POE::Component::Client::Ping;
@@ -13,7 +13,7 @@ use Exporter;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '0.98';
+$VERSION = '0.99';
 
 use Carp qw(croak);
 use Symbol qw(gensym);
@@ -341,8 +341,32 @@ sub poco_ping_pong {
     ( inet_ntoa($from_ip), $trip_time, $now
     );
 
-  # clear the timer
-  $kernel->delay($from_seq) if $heap->{onereply};
+  # It's a single-reply ping.  Clean up after it.
+  # TODO - This is a lot like the cleanup in poco_ping_default().
+  # Consider combining both if it makes sense.
+  if ($heap->{onereply}) {
+    # Clear the timer.
+    $kernel->delay($from_seq);
+
+    # Delete the ping information.  Cache a copy for other cleanup.
+    my $ping_info = delete $heap->{ping_by_seq}->{$seq};
+
+    # Stop mapping the session+address to this sequence number.
+    delete(
+      $heap->{addr_to_seq}->
+      {$ping_info->[PBS_SESSION]}->{$ping_info->[PBS_ADDRESS]}
+    );
+
+    # Stop tracking the session if that was the last address.
+    delete $heap->{addr_to_seq}->{$ping_info->[PBS_SESSION]}
+      unless scalar(keys %{$heap->{addr_to_seq}->{$ping_info->[PBS_SESSION]}});
+
+    # Close the socket if there are no sessions waiting for responses.
+    unless (scalar(keys %{$heap->{ping_by_seq}}) || $heap->{keep_socket}) {
+      DEBUG_SOCKET and warn "closing the raw icmp socket";
+      $kernel->select_read( delete $heap->{socket_handle} );
+    }
+  }
 }
 
 # Default's used to catch ping timeouts, which are named after the
@@ -408,12 +432,14 @@ POE::Component::Client::Ping - an ICMP ping client component
     OneReply  => 1             # defaults to disabled
   );
 
-  $kernel->post( 'pingthing', # Post the request to the 'pingthing'.
-                 'ping',      # Ask it to 'ping' an address.
-                 'pong',      # Have it post an answer to my 'pong' state.
-                 $address,    # This is the address we want to ping.
-                 $timeout,    # An optional timeout.  It overrides the default.
-               );
+  sub some_event_handler {
+    $kernel->post( 'pingthing', # Post the request to the 'pingthing'.
+                   'ping',      # Ask it to 'ping' an address.
+                   'pong',      # Have it post an answer to my 'pong' state.
+                   $address,    # This is the address we want to ping.
+                   $timeout,    # Optional timeout.  It overrides the default.
+                 );
+  }
 
   # This is the sub which is called when the session receives a 'pong'
   # event.  It handles responses from the Ping component.
@@ -428,7 +454,7 @@ POE::Component::Client::Ping - an ICMP ping client component
     # timeout period has ended.
     if (defined $resp_address) {
       printf( "ping to %-15.15s at %10d. pong from %-15.15s in %6.3f s\n",
-              $req_address, $request_time,
+              $req_address, $req_time,
               $resp_address, $roundtrip_time
             );
     }
