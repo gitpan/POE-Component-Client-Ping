@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.4 2001/10/17 16:21:49 rcaputo Exp $
+# $Id: Ping.pm,v 1.5 2002/08/27 12:23:17 rcaputo Exp $
 # License and documentation are after __END__.
 
 package POE::Component::Client::Ping;
@@ -13,7 +13,7 @@ use Exporter;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '0.96';
+$VERSION = '0.97';
 
 use Carp qw(croak);
 use Symbol qw(gensym);
@@ -180,27 +180,43 @@ sub poco_ping_ping {
   # anyway.  It's also used to flag when we start requesting replies.
   $heap->{message_length} = length($msg);
 
-  # Build an address to send the ping at.
-  my $usable_address = ( (length($address) == 4)
-                         ? $address
-                         : inet_aton($address)
-                       );
-
-  my $socket_address = pack_sockaddr_in(ICMP_PORT, $usable_address);
-
-  # Send the packet.  Should an error be checked?
-  send($heap->{socket_handle}, $msg, ICMP_FLAGS, $socket_address) or die $!;
-
-  # Set a timeout based on the sequence number.
-  $kernel->delay( $seq => $timeout );
-
   # Record information about the ping request.
   my @user_args = ();
   if (ref($event) eq "ARRAY") {
       @user_args = @{ $event };
       $event = shift @user_args;
   }
-  
+
+  # Build an address to send the ping at.
+  my $usable_address = ( (length($address) == 4)
+                         ? $address
+                         : inet_aton($address)
+                       );
+
+  # Return failure if an address was not resolvable.  This simulates
+  # the postback behavior.
+  unless (defined $usable_address) {
+    $kernel->post( $sender, $event,
+                   [ $address, $timeout, time() ],
+                   [ undef, undef, time() ],
+                 );
+    return;
+  }
+
+  my $socket_address = pack_sockaddr_in(ICMP_PORT, $usable_address);
+
+  # Send the packet.  If send() fails, then we bail with an error.
+  unless (send($heap->{socket_handle}, $msg, ICMP_FLAGS, $socket_address)) {
+    $kernel->post( $sender, $event,
+                   [ $address, $timeout, time() ],
+                   [ undef, undef, time() ],
+                 );
+    return;
+  }
+
+  # Set a timeout based on the sequence number.
+  $kernel->delay( $seq => $timeout );
+
   $heap->{ping_by_seq}->{$seq} =
     [ # PBS_POSTBACK
       $sender->postback($event, $address, $timeout, time(), @user_args),
@@ -402,15 +418,15 @@ POE::Component::Client::Ping - an ICMP ping client component
     # The response address is defined if this is a response.
     # Otherwise, an undefined response address indicates that the
     # timeout period has ended.
-    if (defined $response_address) {
+    if (defined $resp_address) {
       printf( "ping to %-15.15s at %10d. pong from %-15.15s in %6.3f s\n",
-              $request_address, $request_time,
-              $response_address, $roundtrip_time
+              $req_address, $request_time,
+              $resp_address, $roundtrip_time
             );
     }
     else {
       printf( "ping to %-15.15s is done.\n",
-              $request_address
+              $req_address
             );
     }
   }
