@@ -1,4 +1,19 @@
 =========================
+2004-05-31 16:34:47 v1_03
+=========================
+
+  2004-05-31 16:34:47 by rcaputo; Ping.pm 1.18
+
+    Massively revised the documentation. I tried to look something up for
+    Leigh Sharpe, and it was just a mess in there.
+    
+    Fixed cases where the user data was not passed through. Mostly during
+    request errors. This is related to Leigh's question on POE's mailing
+    list.
+    
+    Bumped the version number up for a CPAN release. 
+
+=========================
 2004-03-09 15:22:05 v1_02
 =========================
 
