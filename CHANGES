@@ -1,4 +1,20 @@
 =========================
+2004-03-09 15:22:05 v1_02
+=========================
+
+  2004-03-09 15:22:05 by rcaputo; Ping.pm 1.17
+
+    Boris Rekhtman reported a "hang" condition when addresses don't
+    resolve. Thanks to his test case, it was tracked down to a leftover
+    socket not being cleaned up if the ping failed early. This commit
+    refactors the socket closure code, fixing his problem and at least
+    one other. 
+
+  2004-02-13 02:23:56 by rcaputo; Ping.pm 1.16
+
+    Don't try to process a packet if recv() fails. 
+
+=========================
 2004-01-23 17:26:23 v1_01
 =========================
 
@@ -34,15 +50,6 @@
     a OneReply response. This means the component lingers forever,
     preventing programs from exiting with OneReply enabled. This commit
     fixes that. 
-
-=========================
-2003-02-22 20:15:18 v0_98
-=========================
-
-  2003-02-22 20:15:18 by rcaputo; Ping.pm 1.10
-
-    Applied Decklin Foster's patch for a typo in the documentation's
-    sample code. 
 
 =============================
 Beginning of Recorded History
