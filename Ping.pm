@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.3 2001/10/13 11:08:50 rcaputo Exp $
+# $Id: Ping.pm,v 1.4 2001/10/17 16:21:49 rcaputo Exp $
 # License and documentation are after __END__.
 
 package POE::Component::Client::Ping;
@@ -6,7 +6,7 @@ package POE::Component::Client::Ping;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '0.94';
+$VERSION = '0.95';
 
 use Carp qw(croak);
 use Symbol qw(gensym);
@@ -25,16 +25,19 @@ sub DEBUG_SOCKET () { 0 }; # Watch the socket open and close.
 sub spawn {
   my $type = shift;
 
-  croak "$type requires root privilege" if $> and ($^O ne 'VMS');
   croak "$type requires an even number of parameters" if @_ % 2;
-
   my %params = @_;
+
+  croak "$type requires root privilege"
+    if $> and ($^O ne 'VMS') and not defined $params{Socket};
 
   my $alias = delete $params{Alias};
   $alias = 'pinger' unless defined $alias and length $alias;
 
   my $timeout = delete $params{Timeout};
   $timeout = 1 unless defined $timeout and $timeout >= 0;
+
+  my $socket = delete $params{Socket};
 
   croak( "$type doesn't know these parameters: ",
          join(', ', sort keys %params)
@@ -48,7 +51,7 @@ sub spawn {
         got_pong => \&poco_ping_pong,
         _default => \&poco_ping_default,
       },
-      args => [ $alias, $timeout ],
+      args => [ $alias, $timeout, $socket ],
     );
 
   undef;
@@ -70,14 +73,15 @@ my $seq = 0;
 # socket which will be used to ping.
 
 sub poco_ping_start {
-  my ($kernel, $heap, $alias, $timeout) = @_[KERNEL, HEAP, ARG0, ARG1];
+  my ($kernel, $heap, $alias, $timeout, $socket) =
+    @_[KERNEL, HEAP, ARG0..ARG2];
 
-  $heap->{data}        = 'Use POE!' x 7;        # 56 data bytes
-  $heap->{data_size}   = length($heap->{data});
-  $heap->{timeout}     = $timeout;
-  $heap->{ping_by_seq} = { };  # keyed on sequence number
-  $heap->{addr_to_seq} = { };  # keyed on request address, then sender
-
+  $heap->{data}          = 'Use POE!' x 7;        # 56 data bytes :)
+  $heap->{data_size}     = length($heap->{data});
+  $heap->{timeout}       = $timeout;
+  $heap->{ping_by_seq}   = { };  # keyed on sequence number
+  $heap->{addr_to_seq}   = { };  # keyed on request address, then sender
+  $heap->{socket_handle} = $socket if defined $socket;
   $kernel->alias_set($alias);
 }
 
@@ -402,6 +406,15 @@ several sessions interact with resolver components without keeping (or
 even knowing) hard references to them.  It is possible to spawn
 several Ping components with different names, but the author can find
 no point in doing this.
+
+=item Socket => $raw_socket
+
+C<Socket> allows for the caller to open an existing raw socket rather
+than letting PoCo::Client::Ping try and open one itself.  This can be
+used to let startup code create the socket while running with enhanced
+privileges, which are dropped.  People who don't want to audit POE for
+security holes will find this useful since they won't need to run POE
+as root.
 
 =item Timeout => $ping_timeout
 
