@@ -1,4 +1,18 @@
 =========================
+2003-12-07 17:57:58 v1_00
+=========================
+
+  2003-12-07 17:57:58 by rcaputo; Ping.pm 1.13
+
+    Bump up the version! 
+
+  2003-11-29 06:55:49 by rcaputo; Ping.pm 1.12; t/01_ping.t 1.6
+
+    Applied Edward Henke's patch to correct a typo (and probably a memory
+    leak) in a hash key. Also updated the test program with new ping
+    targets, as the old ones seem to all be down for some reason. 
+
+=========================
 2003-09-04 05:57:33 v0_99
 =========================
 
@@ -22,24 +36,6 @@
 
     Patch the SYNOPSIS per Ronan Waide's comments. Ideally, we would
     replace them entirely with a sample program. 
-
-  2002-10-10 15:58:22 by rcaputo; Ping.pm 1.8
-
-    Bump the version up to 0.98 for release. 
-
-  2002-10-10 15:56:47 by rcaputo; Ping.pm 1.7
-
-    Casey Zacek encountered a problem where select_read() would fail on a
-    raw socket after a program had dropped its root privileges. His patch
-    (applied) keeps the socket open in this case. 
-
-  2002-09-10 03:35:21 by rcaputo; Makefile.PL 1.3
-
-    Update contact e-mail address, and use cvs-log for the CHANGES file. 
-
-  2002-09-10 03:35:05 by rcaputo; Ping.pm 1.6
-
-    Add contact e-mail address. 
 
 =============================
 Beginning of Recorded History

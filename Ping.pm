@@ -1,19 +1,30 @@
-# $Id: Ping.pm,v 1.11 2003/09/04 05:57:33 rcaputo Exp $
+# $Id: Ping.pm,v 1.13 2003/12/07 17:57:58 rcaputo Exp $
 # License and documentation are after __END__.
 
 package POE::Component::Client::Ping;
 
-use Exporter;
-@ISA = qw(Exporter);
-@EXPORT_OK = qw(REQ_ADDRESS REQ_TIMEOUT REQ_TIME REQ_USER_ARGS
-		RES_ADDRESS RES_ROUNDTRIP RES_TIME);
-%EXPORT_TAGS = ('const' => [ qw(REQ_ADDRESS REQ_TIMEOUT REQ_TIME REQ_USER_ARGS
-				RES_ADDRESS RES_ROUNDTRIP RES_TIME) ]
-		);
+use warnings;
 use strict;
 
+use Exporter;
+use vars qw(@ISA @EXPORT_OK %EXPORT_TAGS);
+
+@ISA = qw(Exporter);
+@EXPORT_OK = qw(
+  REQ_ADDRESS REQ_TIMEOUT REQ_TIME REQ_USER_ARGS RES_ADDRESS
+  RES_ROUNDTRIP RES_TIME
+);
+%EXPORT_TAGS = (
+  'const' => [
+    qw(
+      REQ_ADDRESS REQ_TIMEOUT REQ_TIME REQ_USER_ARGS RES_ADDRESS
+      RES_ROUNDTRIP RES_TIME
+    )
+  ]
+);
+
 use vars qw($VERSION);
-$VERSION = '0.99';
+$VERSION = '1.00';
 
 use Carp qw(croak);
 use Symbol qw(gensym);
@@ -225,15 +236,15 @@ sub poco_ping_ping {
   # Set a timeout based on the sequence number.
   $kernel->delay( $seq => $timeout );
 
-  $heap->{ping_by_seq}->{$seq} =
-    [ # PBS_POSTBACK
-      $sender->postback($event, $address, $timeout, time(), @user_args),
-      "$sender",   # PBS_SESSION (stringified to weaken reference)
-      $address,    # PBS_ADDRESS
-      time()       # PBS_REQUEST_TIME
-    ];
+  $heap->{ping_by_seq}->{$seq} = [
+    # PBS_POSTBACK
+    $sender->postback($event, $address, $timeout, time(), @user_args),
+    "$sender",   # PBS_SESSION (stringified to weaken reference)
+    $address,    # PBS_ADDRESS
+    time()       # PBS_REQUEST_TIME
+  ];
 
-  $heap->{addr_to_seqr}->{$sender}->{$address} = $seq;
+  $heap->{addr_to_seq}->{$sender}->{$address} = $seq;
 }
 
 # Clear a ping postback by address.  The sender+address pair are a
