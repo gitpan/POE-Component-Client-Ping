@@ -1,4 +1,4 @@
-# $Id: Ping.pm,v 1.2 2001/05/29 16:51:39 rcaputo Exp $
+# $Id: Ping.pm,v 1.3 2001/10/13 11:08:50 rcaputo Exp $
 # License and documentation are after __END__.
 
 package POE::Component::Client::Ping;
@@ -6,7 +6,7 @@ package POE::Component::Client::Ping;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '0.92';
+$VERSION = '0.93';
 
 use Carp qw(croak);
 use Symbol qw(gensym);
@@ -342,7 +342,7 @@ POE::Component::Client::Ping - an ICMP ping client component
 
   use POE qw(Component::Client::Ping);
 
-  POE::Component::Client::DNS->spawn(
+  POE::Component::Client::Ping->spawn(
     Alias       => 'pingthing',   # defaults to 'pinger'
     Timeout     => 10,            # defaults to 1 second
   );
@@ -466,6 +466,12 @@ There may be multiple responses for a single ping.
 This is the address that responded to the ICMP echo request.  It may
 be different than C<$request_address>, especially if the request
 address was a subnet.
+
+C<$response_address> will be undefined if C<$request_timeout> seconds
+have elapsed.  This marks the end of responses for a given request.
+Programs can assume that a request address will not send more
+responses after this, and they may use the end-of-responses marker to
+initiate another ping request.
 
 =item C<$roundtrip_time>
 
