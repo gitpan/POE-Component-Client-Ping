@@ -1,11 +1,14 @@
 #!/usr/bin/perl
-# $Id: Makefile.PL,v 1.2 2000/09/02 20:12:44 rcaputo Exp $
+# $Id: Makefile.PL,v 1.3 2002/09/10 03:35:21 rcaputo Exp $
 
 use ExtUtils::MakeMaker;
 
+# Touch CHANGES so it exists.
+open(CHANGES, ">>CHANGES") and close CHANGES;
+
 WriteMakefile
   ( NAME         => 'POE::Component::Client::Ping',
-    AUTHOR       => 'Rocco Caputo <troc+poe@netrus.net>',
+    AUTHOR       => 'Rocco Caputo <rcaputo@cpan.org>',
     ABSTRACT     => 'POE component for non-blocking/concurrent ICMP ping.',
     VERSION_FROM => 'Ping.pm',
 
@@ -13,7 +16,11 @@ WriteMakefile
     PREREQ_PM    => { POE         => 0.11,
                       Time::HiRes => 1.20,
                     },
-    dist         => { COMPRESS    => 'gzip -9f',
-                      SUFFIX      => 'gz',
-                    },
+    dist         =>
+    { COMPRESS   => 'gzip -9f',
+      SUFFIX     => 'gz',
+      PREOP      => ( 'cvs-log.perl | ' .
+                      'tee ./$(DISTNAME)-$(VERSION)/CHANGES > ./CHANGES'
+                    ),
+    },
   );
