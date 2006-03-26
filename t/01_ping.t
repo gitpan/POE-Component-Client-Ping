@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-# $Id: 01_ping.t,v 1.6 2003/11/29 06:55:49 rcaputo Exp $
+# $Id: 01_ping.t 28 2003-11-29 06:55:49Z rcaputo $
 
 use strict;
 
