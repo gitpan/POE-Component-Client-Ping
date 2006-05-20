@@ -1,4 +1,4 @@
-# $Id: Ping.pm 43 2006-03-26 00:52:09Z rcaputo $
+# $Id: Ping.pm 45 2006-05-20 23:16:47Z rcaputo $
 # License and documentation are after __END__.
 
 package POE::Component::Client::Ping;
@@ -24,7 +24,7 @@ use vars qw(@ISA @EXPORT_OK %EXPORT_TAGS);
 );
 
 use vars qw($VERSION $PKTSIZE);
-$VERSION = '1.10';
+$VERSION = '1.11';
 $PKTSIZE = $^O eq 'linux' ? 3_000 : 100;
 
 use Carp qw(croak);
@@ -49,7 +49,9 @@ sub spawn {
   my %params = @_;
 
   croak "$type requires root privilege" if (
-		$> and ($^O ne "VMS") and not defined $params{Socket}
+		$> and ($^O ne "VMS") and
+		($^O ne "cygwin") and
+		not defined $params{Socket}
 	);
 
   my $alias = delete $params{Alias};
