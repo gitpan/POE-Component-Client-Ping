@@ -1,8 +1,9 @@
-# $Id: MANIFEST 41 2005-06-21 18:27:04Z rcaputo $
+# $Id: MANIFEST 47 2006-06-12 04:18:18Z rcaputo $
 CHANGES
 MANIFEST
 Makefile.PL
 Ping.pm
 README
 t/01_ping.t
+t/02_arbitrary_data.t
 META.yml                                 Module meta-data (added by MakeMaker)

@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                POE-Component-Client-Ping
-version:             1.11
+version:             1.12
 abstract:            POE component for non-blocking/concurrent ICMP ping.
 license:             unknown
 generated_by:        ExtUtils::MakeMaker version 6.30_01

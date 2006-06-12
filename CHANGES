@@ -2,6 +2,19 @@
 9999-99-99 99:99:99 (untagged)
 ==============================
 
+  2006-06-12 04:18:18 (r47) by rcaputo
+  t/02_arbitrary_data.t A; MANIFEST M; Ping.pm M
+
+    Chris Williams pointed out that arbitrary data wasn't being passed
+    back to users. Events were being split apart from arbitrary data, and
+    then just the event was yielded back to the component for retries and
+    internal ping queueing. This patch adds a modified test case, fixes
+    the bug, and bumps the version to 1.12 for release. 
+
+=========================
+2006-05-20 23:18:55 v1_11
+=========================
+
   2006-05-20 23:16:47 (r45) by rcaputo; Ping.pm M
 
     Apply Michael Costello's suggestion to avoid the root check on
