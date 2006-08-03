@@ -1,6 +1,21 @@
-==============================
-9999-99-99 99:99:99 (untagged)
-==============================
+=========================
+2006-08-03 14:33:38 v1_13
+=========================
+
+  2006-08-03 14:32:44 (r50) by rcaputo; t/02_arbitrary_data.t M
+
+    Add keyword expansion. 
+
+  2006-08-03 14:32:09 (r49) by rcaputo
+  t/02_arbitrary_data.t M; t/01_ping.t M; Ping.pm M
+
+    Apply Andrew Hoying's (blm.gov) patch to return the response packet's
+    time to live (TTL). Update t/01_* to use Test::More. Update t/02_* to
+    skip all tests (rather than die) if not run with root privilege. 
+
+=========================
+2006-06-12 04:30:40 v1_12
+=========================
 
   2006-06-12 04:18:18 (r47) by rcaputo
   t/02_arbitrary_data.t A; MANIFEST M; Ping.pm M

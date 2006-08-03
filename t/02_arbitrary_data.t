@@ -1,10 +1,19 @@
 #!/usr/bin/perl
-# $Id$
+# $Id: 02_arbitrary_data.t 50 2006-08-03 14:32:44Z rcaputo $
 # vim: filetype=perl
 
 use strict;
 use warnings;
 
+BEGIN {
+  $| = 1;
+  if ($> and ($^O ne 'VMS')) {
+    print "1..0 # skipped: ICMP ping requires root privilege\n";
+    exit 0;
+  }
+};
+
+sub POE::Kernel::ASSERT_DEFAULT () { 1 }
 use POE qw(Component::Client::Ping);
 use Test::More tests => 1;
 
