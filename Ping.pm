@@ -1,4 +1,4 @@
-# $Id: Ping.pm 49 2006-08-03 14:32:09Z rcaputo $
+# $Id: Ping.pm 54 2008-03-24 05:36:05Z rcaputo $
 # License and documentation are after __END__.
 
 package POE::Component::Client::Ping;
@@ -24,7 +24,7 @@ use vars qw(@ISA @EXPORT_OK %EXPORT_TAGS);
 );
 
 use vars qw($VERSION $PKTSIZE);
-$VERSION = '1.13';
+$VERSION = '1.14';
 $PKTSIZE = $^O eq 'linux' ? 3_000 : 100;
 
 use Carp qw(croak);
@@ -66,6 +66,10 @@ sub spawn {
   my $rcvbuf = delete $params{BufferSize};
   my $always_decode = delete $params{AlwaysDecodeAddress};
   my $retry = delete $params{Retry};
+  my $payload = delete $params{Payload};
+
+  # 56 data bytes :)
+  $payload = 'Use POE!' x 7 unless defined $payload;
 
   croak(
     "$type doesn't know these parameters: ", join(', ', sort keys %params)
@@ -81,7 +85,7 @@ sub spawn {
     },
     args => [
       $alias, $timeout, $retry, $socket, $onereply, $parallelism,
-      $rcvbuf, $always_decode
+      $rcvbuf, $always_decode, $payload
     ],
   );
 
@@ -119,10 +123,10 @@ sub poco_ping_start {
   my (
     $kernel, $heap,
     $alias, $timeout, $retry, $socket, $onereply, $parallelism,
-    $rcvbuf, $always_decode
-  ) = @_[KERNEL, HEAP, ARG0..ARG7];
+    $rcvbuf, $always_decode, $payload
+  ) = @_[KERNEL, HEAP, ARG0..ARG8];
 
-  $heap->{data}          = 'Use POE!' x 7;        # 56 data bytes :)
+  $heap->{data}          = $payload;
   $heap->{data_size}     = length($heap->{data});
   $heap->{timeout}       = $timeout;
   $heap->{onereply}      = $onereply;
@@ -523,16 +527,15 @@ sub poco_ping_pong {
   my ($from_port, $from_ip) = unpack_sockaddr_in($from_saddr);
 
   # Get the response packet's time to live.
-  my ($from_ttl) = unpack('C', substr($recv_message, 8, 1));
+  my ($ihl, $from_ttl) = unpack('C1@7C1', $recv_message);
+  $ihl &= 0x0F;
 
   # Unpack the packet itself.
   my (
     $from_type, $from_subcode,
     $from_checksum, $from_pid, $from_seq, $from_message
-  )  = unpack(
-    ICMP_STRUCT . $heap->{data_size},
-    substr($recv_message, -$heap->{message_length})
-  );
+  )  = unpack( '@'.$ihl*4 . ICMP_STRUCT.$heap->{data_size},
+               $recv_message );
 
   DEBUG and do {
     warn ",----- packet from ", inet_ntoa($from_ip), ", port $from_port\n";
@@ -786,6 +789,12 @@ Ideally, you should be passing addresses in to the system to
 avoid slow hostname lookups, but if you must use hostnames
 and there is a possibility that you might have short
 hostnames, then you should set this.
+
+=item Payload => $bytes
+
+Sets the ICMP payload (data bytes).  Otherwise the component generates
+56 data bytes internally.  Note that some firewalls will discard ICMP
+packets with nonstandard payload sizes.
 
 =back
 

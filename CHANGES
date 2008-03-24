@@ -1,70 +1,19 @@
-=========================
-2006-08-03 14:33:38 v1_13
-=========================
+=================================
+2008-03-24T05:36:25.601485Z v1_14
+=================================
 
-  2006-08-03 14:32:44 (r50) by rcaputo; t/02_arbitrary_data.t M
+  2008-03-24 05:36:05 (r54) by rcaputo; Ping.pm M
 
-    Add keyword expansion. 
+    Apply Andrew Feren's patch to make ICMP packet parsing more correct.
+    Resolves rt.cpan.org ticket 33968. 
 
-  2006-08-03 14:32:09 (r49) by rcaputo
-  t/02_arbitrary_data.t M; t/01_ping.t M; Ping.pm M
+  2007-02-19 18:12:57 (r53) by rcaputo; Ping.pm M
 
-    Apply Andrew Hoying's (blm.gov) patch to return the response packet's
-    time to live (TTL). Update t/01_* to use Test::More. Update t/02_* to
-    skip all tests (rather than die) if not run with root privilege. 
+    Add a Payload constructor parameter, per Michael Hare's suggestion. 
 
-=========================
-2006-06-12 04:30:40 v1_12
-=========================
+  2006-11-06 19:23:55 (r52) by rcaputo; Makefile.PL M
 
-  2006-06-12 04:18:18 (r47) by rcaputo
-  t/02_arbitrary_data.t A; MANIFEST M; Ping.pm M
-
-    Chris Williams pointed out that arbitrary data wasn't being passed
-    back to users. Events were being split apart from arbitrary data, and
-    then just the event was yielded back to the component for retries and
-    internal ping queueing. This patch adds a modified test case, fixes
-    the bug, and bumps the version to 1.12 for release. 
-
-=========================
-2006-05-20 23:18:55 v1_11
-=========================
-
-  2006-05-20 23:16:47 (r45) by rcaputo; Ping.pm M
-
-    Apply Michael Costello's suggestion to avoid the root check on
-    cygwin. Bump the version for a new release. 
-
-=========================
-2006-03-26 00:52:26 v1_10
-=========================
-
-  2006-03-26 00:52:09 (r43) by rcaputo; Ping.pm M
-
-    Bump the volume a little more than usual. 
-
-  2006-03-26 00:49:09 (r42) by rcaputo; Ping.pm M
-
-    Applied Nick Williams' patch from rt.cpan.org ticket #18337. That's
-    almost 1337, but not. Anyway, he's added queuing. It's off by
-    default. When enabled, though, the component tries not to spew more
-    ICMP requests down the pipe than the operating system can handle. It
-    tries to make a guess about opmital parameters, but it's going to be
-    inaccurate for lots of people. Nick anticipated this and added
-    tunables.
-    
-    While he was queuing and throttling, Nick also added the option to
-    have PoCo::Client::Ping retry a number of times before reporting that
-    a host is down.
-    
-    Since this was a large patch, I took the opportunity to retab and
-    restyle the code. 
-
-  2005-06-21 18:27:04 (r41) by rcaputo; MANIFEST M; Makefile.PL M
-
-    Remove META.yml from MANIFEST since it's auto-generated at "make
-    dist" time. Have Makefile.PL generate CHANGES with svn-log.perl
-    instead of cvs-log.perl. 
+    Set a LICENSE. Cheap kwalitee points!
 
 ==============
 End of Excerpt

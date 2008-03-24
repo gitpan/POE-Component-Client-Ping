@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $Id: Makefile.PL 41 2005-06-21 18:27:04Z rcaputo $
+# $Id: Makefile.PL 52 2006-11-06 19:23:55Z rcaputo $
 
 use ExtUtils::MakeMaker;
 
@@ -10,6 +10,7 @@ WriteMakefile(
   NAME         => 'POE::Component::Client::Ping',
   AUTHOR       => 'Rocco Caputo <rcaputo@cpan.org>',
   ABSTRACT     => 'POE component for non-blocking/concurrent ICMP ping.',
+  LICENSE      => 'perl',
   VERSION_FROM => 'Ping.pm',
 
   PM           => { 'Ping.pm'   => '$(INST_LIBDIR)/Ping.pm' },
