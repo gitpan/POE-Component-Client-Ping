@@ -1,15 +1,26 @@
 --- #YAML:1.0
-name:                POE-Component-Client-Ping
-version:             1.14
-abstract:            POE component for non-blocking/concurrent ICMP ping.
-license:             perl
-generated_by:        ExtUtils::MakeMaker version 6.31
-distribution_type:   module
-requires:     
-    POE:                           0.11
-    Time::HiRes:                   1.2
-meta-spec:
-    url:     http://module-build.sourceforge.net/META-spec-v1.2.html
-    version: 1.2
+name:               POE-Component-Client-Ping
+version:            1.160
+abstract:           POE component for non-blocking/concurrent ICMP ping.
 author:
     - Rocco Caputo <rcaputo@cpan.org>
+license:            perl
+distribution_type:  module
+configure_requires:
+    ExtUtils::MakeMaker:  0
+build_requires:
+    ExtUtils::MakeMaker:  0
+requires:
+    POE:          1.007
+    Time::HiRes:  1.2
+resources:
+    license:     http://dev.perl.org/licenses/
+    repository:  http://thirdlobe.com/svn/poco-client-ping/trunk
+no_index:
+    directory:
+        - t
+        - inc
+generated_by:       ExtUtils::MakeMaker version 6.54
+meta-spec:
+    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
+    version:  1.4

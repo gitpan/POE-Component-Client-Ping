@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $Id: Makefile.PL 52 2006-11-06 19:23:55Z rcaputo $
+# $Id: Makefile.PL 60 2009-07-28 06:31:09Z rcaputo $
 
 use ExtUtils::MakeMaker;
 
@@ -12,11 +12,16 @@ WriteMakefile(
   ABSTRACT     => 'POE component for non-blocking/concurrent ICMP ping.',
   LICENSE      => 'perl',
   VERSION_FROM => 'Ping.pm',
-
+  META_ADD     => {
+    resources  => {
+      license    => 'http://dev.perl.org/licenses/',
+      repository => 'http://thirdlobe.com/svn/poco-client-ping/trunk'
+    },
+  },
   PM           => { 'Ping.pm'   => '$(INST_LIBDIR)/Ping.pm' },
   PREREQ_PM    => {
-    POE         => 0.11,
-    Time::HiRes => 1.20,
+    'POE'         => 1.007,
+    'Time::HiRes' => 1.20,
   },
   dist         => {
     COMPRESS   => 'gzip -9f',

@@ -1,19 +1,37 @@
+==================================
+2009-07-28T06:31:41.543095Z v1_160
+==================================
+
+  2009-07-28 06:31:09 (r60) by rcaputo; Makefile.PL M; Ping.pm M
+
+    Use latest POE, and prepare for a new release.
+
+  2009-07-27 04:56:40 (r59) by rcaputo; Makefile.PL M; Ping.pm M
+
+    Added a machine-readable repository directory to the distribution.
+    Documented the bug tracker, repository, and other resource URLs. 
+
 =================================
-2008-03-24T05:36:25.601485Z v1_14
+2009-07-25T17:28:34.825345Z v1_15
 =================================
 
-  2008-03-24 05:36:05 (r54) by rcaputo; Ping.pm M
+  2009-07-25 17:26:55 (r57) by rcaputo
+  MANIFEST M; Ping.pm M; t/03_provided_socket.t A
 
-    Apply Andrew Feren's patch to make ICMP packet parsing more correct.
-    Resolves rt.cpan.org ticket 33968. 
+    Resolve rt.cpan.org ticket 35738. Isaacson rightly pointed out that
+    the component would never end if an application gave it its own raw
+    socket. Now the component will stop watching the socket when there's
+    nothing to do, which will allow it to exit if the rest of the program
+    is also stopping. Added a test case for the condition, too. 
 
-  2007-02-19 18:12:57 (r53) by rcaputo; Ping.pm M
+  2009-07-25 07:45:33 (r56) by rcaputo; Ping.pm M
 
-    Add a Payload constructor parameter, per Michael Hare's suggestion. 
-
-  2006-11-06 19:23:55 (r52) by rcaputo; Makefile.PL M
-
-    Set a LICENSE. Cheap kwalitee points!
+    Calculate a ballpark optimal Parallelism value by default.
+    Previously, the component would try to process as many simultaneous
+    requests as possible, often exceeding OS and network limits, and
+    either dropping packets or returning responses with patently bogus
+    round-trip times. Thanks to Dean Holroyd for rt.cpan.org #48171,
+    which this should resolve. 
 
 ==============
 End of Excerpt
