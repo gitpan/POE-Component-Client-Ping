@@ -1,4 +1,3 @@
-# $Id: Ping.pm 60 2009-07-28 06:31:09Z rcaputo $
 # License and documentation are after __END__.
 # vim: set ts=2 sw=2 expandtab
 
@@ -25,7 +24,7 @@ use vars qw(@ISA @EXPORT_OK %EXPORT_TAGS);
 );
 
 use vars qw($VERSION $PKTSIZE);
-$VERSION = '1.160';
+$VERSION = '1.161';
 $PKTSIZE = $^O eq 'linux' ? 3_000 : 100;
 
 use Carp qw(croak);
@@ -414,6 +413,10 @@ sub _send_packet {
   DEBUG_PBS and warn "recording ping_by_seq($seq)";
   if ($optpostback) {
     $heap->{ping_by_seq}->{$seq} = $optpostback;
+
+    # If retries, set the request time to the new/actual request time.
+    # Inserted by Ralph Schmitt 2009-09-12.
+    $optpostback->[PBS_REQUEST_TIME] = time();
   }
   else {
     $heap->{ping_by_seq}->{$seq} = [
@@ -982,11 +985,11 @@ distribution.
 
 =head1 BUG TRACKER
 
-https://rt.cpan.org/Dist/Display.html?Status=Active&Queue=POE-Component-Client-Ping
+https://rt.cpan.org/Dist/Display.html?Queue=POE-Component-Client-Ping
 
 =head1 REPOSITORY
 
-http://thirdlobe.com/svn/poco-client-ping/
+http://github.com/rcaputo/poe-component-client-ping/
 
 =head1 OTHER RESOURCES
 

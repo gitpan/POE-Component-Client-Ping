@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               POE-Component-Client-Ping
-version:            1.160
+version:            1.161
 abstract:           POE component for non-blocking/concurrent ICMP ping.
 author:
     - Rocco Caputo <rcaputo@cpan.org>
@@ -15,7 +15,7 @@ requires:
     Time::HiRes:  1.2
 resources:
     license:     http://dev.perl.org/licenses/
-    repository:  http://thirdlobe.com/svn/poco-client-ping/trunk
+    repository:  http://github.com/rcaputo/poe-component-client-ping/
 no_index:
     directory:
         - t

@@ -1,10 +1,10 @@
-# $Id: MANIFEST 57 2009-07-25 17:26:55Z rcaputo $
 CHANGES
 MANIFEST
 Makefile.PL
-Ping.pm
+lib/POE/Component/Client/Ping.pm
 README
 t/01_ping.t
 t/02_arbitrary_data.t
 t/03_provided_socket.t
+t/04_timeout_retry.t
 META.yml                                 Module meta-data (added by MakeMaker)

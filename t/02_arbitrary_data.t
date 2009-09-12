@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-# $Id: 02_arbitrary_data.t 50 2006-08-03 14:32:44Z rcaputo $
 # vim: filetype=perl
 
 use strict;

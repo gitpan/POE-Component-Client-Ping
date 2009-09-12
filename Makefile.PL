@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-# $Id: Makefile.PL 60 2009-07-28 06:31:09Z rcaputo $
 
 use ExtUtils::MakeMaker;
 
@@ -11,14 +10,13 @@ WriteMakefile(
   AUTHOR       => 'Rocco Caputo <rcaputo@cpan.org>',
   ABSTRACT     => 'POE component for non-blocking/concurrent ICMP ping.',
   LICENSE      => 'perl',
-  VERSION_FROM => 'Ping.pm',
+  VERSION_FROM => 'lib/POE/Component/Client/Ping.pm',
   META_ADD     => {
     resources  => {
       license    => 'http://dev.perl.org/licenses/',
-      repository => 'http://thirdlobe.com/svn/poco-client-ping/trunk'
+      repository => 'http://github.com/rcaputo/poe-component-client-ping/'
     },
   },
-  PM           => { 'Ping.pm'   => '$(INST_LIBDIR)/Ping.pm' },
   PREREQ_PM    => {
     'POE'         => 1.007,
     'Time::HiRes' => 1.20,
@@ -27,8 +25,7 @@ WriteMakefile(
     COMPRESS   => 'gzip -9f',
     SUFFIX     => 'gz',
     PREOP      => (
-      'svn-log.perl --repo https://thirdlobe.com/svn/poco-client-ping| ' .
-      'tee ./$(DISTNAME)-$(VERSION)/CHANGES > ./CHANGES'
+      'git-log.pl | tee ./$(DISTNAME)-$(VERSION)/CHANGES > ./CHANGES'
     ),
   },
 );
