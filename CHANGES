@@ -1,4 +1,15 @@
 ================================
+2009-10-14 18:00:18 -0400 v1_162
+================================
+
+  commit 65682a45ea5d0ecd93625389e4fe2372334bd3f7
+  Author: Rocco Caputo <rcaputo@cpan.org>
+  Date:   Wed Oct 14 18:00:18 2009 -0400
+  
+    A test was failing rather than skipping due to insufficient
+    privileges. 
+
+================================
 2009-09-12 18:56:44 -0400 v1_161
 ================================
 
