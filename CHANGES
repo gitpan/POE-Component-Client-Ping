@@ -1,4 +1,15 @@
 ================================
+2009-12-19 17:01:44 -0500 v1_163
+================================
+
+  commit 27b7665de4fa1e3b3960720ddd83632f21c60497
+  Author: Rocco Caputo <rcaputo@cpan.org>
+  Date:   Sat Dec 19 17:01:44 2009 -0500
+  
+    Avoid "UNKNOWN" reports from CPAN testers. All tests were skipped
+    when not tested as root, so add a test for non-root users. 
+
+================================
 2009-10-14 18:00:18 -0400 v1_162
 ================================
 

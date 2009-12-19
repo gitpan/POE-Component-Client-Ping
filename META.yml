@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               POE-Component-Client-Ping
-version:            1.162
+version:            1.163
 abstract:           POE component for non-blocking/concurrent ICMP ping.
 author:
     - Rocco Caputo <rcaputo@cpan.org>
