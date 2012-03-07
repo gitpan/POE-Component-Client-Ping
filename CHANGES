@@ -1,4 +1,15 @@
 ================================
+2012-03-06 22:42:14 -0500 v1_171
+================================
+
+  commit ef46396c4d15e9a3a3324445f6a7b7481f212f3c
+  Author: gregor herrmann <gregoa@debian.org>
+  Date:   Tue Mar 6 22:38:27 2012 -0500
+  
+    [rt.cpan.org 74189] Merge Debian patch to skip a regression test
+    unless root. 
+
+================================
 2012-01-05 17:13:11 -0500 v1_170
 ================================
 
