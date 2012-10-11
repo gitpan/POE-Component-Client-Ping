@@ -1,3 +1,18 @@
+==============================
+9999-99-99 99:99:99 +0000 HEAD
+==============================
+
+  commit bd859c713caa5c7680e454e4c5c84def2445d3f6
+  Author: Chris Prather <chris@prather.org>
+  Date:   Mon Apr 2 03:55:12 2012 -0400
+  
+    add an example script
+
+    I had a difficult time parsing out the example from the synopsis and
+    I had to dig into the tests. This commit adds a simple eg/ directory
+    with the script that I ended up writing. It uses NetAddr::IP to take
+    a list of CIDR blocks and ping all of the hosts. 
+
 ================================
 2012-03-06 22:42:14 -0500 v1_171
 ================================
