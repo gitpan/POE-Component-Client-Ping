@@ -1,83 +1,18 @@
 ================================
-2012-10-11 08:19:41 -0400 v1_173
+2013-11-26 09:14:34 -0500 v1_174
 ================================
 
-  commit 681a27847d8ecca48c813c19d73dad9623458b9c
+  commit e1adebfc39c6a164b5245fd5d6fbf68c0c3554a5
   Author: Rocco Caputo <rcaputo@cpan.org>
-  Date:   Thu Oct 11 08:19:41 2012 -0400
-  
-    Replace // with ||. There's a smoker out there running Perl 5.8.9! 
-
-================================
-2012-10-10 21:07:58 -0700 v1_172
-================================
-
-  commit bd859c713caa5c7680e454e4c5c84def2445d3f6
-  Author: Chris Prather <chris@prather.org>
-  Date:   Mon Apr 2 03:55:12 2012 -0400
-  
-    add an example script
-
-    I had a difficult time parsing out the example from the synopsis and
-    I had to dig into the tests. This commit adds a simple eg/ directory
-    with the script that I ended up writing. It uses NetAddr::IP to take
-    a list of CIDR blocks and ping all of the hosts. 
-
-================================
-2012-03-06 22:42:14 -0500 v1_171
-================================
-
-  commit ef46396c4d15e9a3a3324445f6a7b7481f212f3c
-  Author: gregor herrmann <gregoa@debian.org>
-  Date:   Tue Mar 6 22:38:27 2012 -0500
-  
-    [rt.cpan.org 74189] Merge Debian patch to skip a regression test
-    unless root. 
-
-================================
-2012-01-05 17:13:11 -0500 v1_170
-================================
-
-  commit 0a82763c0680061ad7198ad5674501e4c697eda0
-  Author: Rocco Caputo <rcaputo@cpan.org>
-  Date:   Thu Jan 5 17:13:11 2012 -0500
+  Date:   Tue Nov 26 09:14:34 2013 -0500
   
     Bump version for release.
 
-  commit ae5ac39a7e28ee679260570b023a0cd8d5257cba
+  commit 903d4561a669e934b4f66ccab4a5271b3be88b38
   Author: Rocco Caputo <rcaputo@cpan.org>
-  Date:   Thu Jan 5 15:56:50 2012 -0500
+  Date:   Tue Nov 26 09:04:06 2013 -0500
   
-    Resolve Viliam Pucik's rt.cpan.org ticket 72055. Correct edge-case
-    behavior when making duplicate requests from a single session.
-
-  commit 951d3a5a614011e99c4f584a989f07a2f94bdc41
-  Author: Rocco Caputo <rcaputo@cpan.org>
-  Date:   Thu Jan 5 09:02:45 2012 -0500
-  
-    Fix indent damage enabled by a bad vim modeline. No significant
-    changes.
-
-  commit faaf4c082383590fbd8879f82a7540daaeff91a9
-  Author: Rocco Caputo <rcaputo@cpan.org>
-  Date:   Thu Jan 5 08:35:37 2012 -0500
-  
-    Add a test case for rt.cpan.org 72055, opened by Viliam Pucik.
-
-  commit 27c7a7dad945265b645d3eaef20016cad7414990
-  Author: Rocco Caputo <rcaputo@cpan.org>
-  Date:   Thu Jan 5 00:50:13 2012 -0500
-  
-    Reduce complexity in the retry code.
-
-    Also apply a fix for rt.cpan.org 68702, reported and fixed by Iulia
-    Bublea.
-
-  commit 798349d68bbdbd4f4b00af21f0c1ac5366fb891e
-  Author: Rocco Caputo <rcaputo@cpan.org>
-  Date:   Wed Jan 4 18:10:23 2012 -0500
-  
-    Simplify existing code. 
+    [github #2] Add Chris Prather's example to the MANIFEST. 
 
 ==============
 End of Excerpt
